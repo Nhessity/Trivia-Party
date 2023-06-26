@@ -121,7 +121,8 @@ function Playlists(){
         <ul>
             {renderPlaylists()}
         </ul>
-        <QuizGameComponent data={playlistId}/>
+        {playlistId ? <QuizGameComponent data={playlistId}/>
+            : <>No Playlist selected</>}
     </>
 }
 
