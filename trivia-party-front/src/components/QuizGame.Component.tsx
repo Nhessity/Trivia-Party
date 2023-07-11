@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap"
 import Playlists from "./Playlists";
 import axios from "axios";
+import SongCardComponent from "./SongCard.Component";
 
 function QuizGameComponent(props: any){
     // const [quizPlaylist, setQuizPlaylist] = useState({data:""});
@@ -12,6 +13,7 @@ function QuizGameComponent(props: any){
 
     const [quizPlaylist, setQuizPlaylist] = useState<any>(null)
     const [questionSet, setQuestionSet] = useState<QuestionSet>()
+    const [score, setScore] = useState<number>(0)
     // var quizPlaylist : any
 
     useEffect(
@@ -54,7 +56,7 @@ function QuizGameComponent(props: any){
 
     // todo: question bank and getting
     const questionType = [{"type": 0, "str": "Which track is currently more popular?", 
-            "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return 1} return 2}},
+            "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return track1.name} return track2.name}},
         {"type" : 1, "str" : "Which track was released earlier?", "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return 1} return 2}}]
 
     // var getAnswer:{() : any;}
@@ -83,11 +85,17 @@ function QuizGameComponent(props: any){
         // const questionType : any = questionType[getRandomInt(0,1)]
         let questionStr = questionType[randomInt].str
         let track1 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
+
+        // make sure track2 is different from track1
         let track2 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
+        if (track1 === track2){
+            track2 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
+        }
         let answer = questionType[randomInt].func(track1, track2)
         
         //pass questionset parameters
         setQuestionSet({questionNumber, questionStr, track1, track2, answer})
+        console.log('question set created')
     }
 
     // if i dont like this -> change questionSet to a useState?
@@ -110,48 +118,54 @@ function QuizGameComponent(props: any){
 
     
 
-    const onAnswer = (questionNumber:number) => {
-        // check if answer is correct. increment score if so
-        // create and load new question set
-        console.log(questionSet?.answer)
-        createQuestionSet(questionNumber + 1)
+    // const onAnswer = (selectedAns:number, questionNumber:number) => {
+    //     // check if answer is correct. increment score if so
+    //     // create and load new question set
+    //     // console.log(questionSet?.answer)
+    //     if(selectedAns === questionSet?.answer){
+    //         console.log('correct')
+    //     }else{
+    //         console.log('incorrect')
+    //     }
+    //     createQuestionSet(questionNumber + 1)
+    // }
+
+    const handleAnswer = (trackName:string, questionNumber:number) => {
+        if(trackName === questionSet?.answer){
+            console.log('correct', questionSet?.answer, 'is more popular')
+            setScore(score+1)
+        }else{
+            console.log('incorrect', questionSet?.answer, 'is more popular')
+        }
+        createQuestionSet(questionNumber+1)
+    }
+
+    const renderScore = () => {
+        return <>
+            {score} / {questionSet?.questionNumber - 1}
+        </>
     }
 
     const renderQuiz = () => {
         // if (!quizPlaylist) return <div/>
+        console.log('quizPlaylist length at render ' + quizPlaylist.length)
+        if(!questionSet) return <div/>
         return <>
             <Container>
                 <Row>
                     <h1 className="text-center">{questionSet?.questionNumber}. {questionSet?.questionStr}</h1>
                 </Row>
-                <Row className="justify-content-center">
-                    <Col>
-                        {/* <h1 className="text-center">{quizPlaylist?.[0].track.name}</h1> */}
-                        <h1 className="text-center">{questionSet?.track1.name}</h1>
-                        <div className="d-flex justify-content-center">
-                            {/* <img onClick={() => onAnswer(questionSet?.questionNumber)} src={quizPlaylist?.[0].track.album.images[1].url} className=""></img> */}
-                            <img onClick={() => onAnswer(questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
-                        </div>
-                    </Col>
-                    <Col>
-                        {/* <h1 className="text-center">{quizPlaylist?.[1].track.name}</h1>
-                        <div className="d-flex justify-content-center">
-                            <img src={quizPlaylist?.[1].track.album.images[1].url} className=""></img>
-                        </div> */}
-                        <h1 className="text-center">{questionSet?.track2.name}</h1>
-                        <div className="d-flex justify-content-center">
-                            <img onClick={() => onAnswer(questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
-                        </div>
-                    </Col>
-                </Row>
+                <SongCardComponent questionSet={questionSet} handleAnswer={handleAnswer}></SongCardComponent>
             </Container>
         </>
     }
 
     return <>
+        {console.log('rendering start')}
         {/* <p>{props.data}</p> */}
         {/* {quizPlaylist ? {renderQuiz} : <></>} */}
         {/* {quizPlaylist ? renderQuiz() : <div/>} */}
+        {questionSet ? renderScore() : <div/>}
         {questionSet ? renderQuiz() : <div/>}
     </>
 }
