@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import Playlists from "./Playlists";
 import axios from "axios";
 import SongCardComponent from "./SongCard.Component";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 function QuizGameComponent(props: any){
     // const [quizPlaylist, setQuizPlaylist] = useState({data:""});
@@ -14,6 +15,8 @@ function QuizGameComponent(props: any){
     const [quizPlaylist, setQuizPlaylist] = useState<any>(null)
     const [questionSet, setQuestionSet] = useState<QuestionSet>()
     const [score, setScore] = useState<number>(0)
+    // var quizIsDone = false
+    const [quizIsDone, setQuizIsDone] = useState<boolean>(false)
     // var quizPlaylist : any
 
     useEffect(
@@ -55,9 +58,12 @@ function QuizGameComponent(props: any){
     }
 
     // todo: question bank and getting
+    // add which song is shorter/longer
     const questionType = [{"type": 0, "str": "Which track is currently more popular?", 
             "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return track1.name} return track2.name}},
         {"type" : 1, "str" : "Which track was released earlier?", "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return 1} return 2}}]
+
+
 
     // var getAnswer:{() : any;}
 
@@ -116,20 +122,6 @@ function QuizGameComponent(props: any){
         answer : any
     }
 
-    
-
-    // const onAnswer = (selectedAns:number, questionNumber:number) => {
-    //     // check if answer is correct. increment score if so
-    //     // create and load new question set
-    //     // console.log(questionSet?.answer)
-    //     if(selectedAns === questionSet?.answer){
-    //         console.log('correct')
-    //     }else{
-    //         console.log('incorrect')
-    //     }
-    //     createQuestionSet(questionNumber + 1)
-    // }
-
     const handleAnswer = (trackName:string, questionNumber:number) => {
         if(trackName === questionSet?.answer){
             console.log('correct', questionSet?.answer, 'is more popular')
@@ -137,8 +129,26 @@ function QuizGameComponent(props: any){
         }else{
             console.log('incorrect', questionSet?.answer, 'is more popular')
         }
-        createQuestionSet(questionNumber+1)
+
+        if(questionNumber >= 10 ){
+            // const navigate = useNavigate()
+            // console.log("attempting to redirect");
+            // navigate("/result")
+            //return redirect("/result")
+            // quizIsDone = true
+            setQuizIsDone(true)
+        }else{
+            createQuestionSet(questionNumber+1)
+        }
     }
+    let navigate = useNavigate()
+    
+
+    useEffect(()=>{
+        if(quizIsDone === true){
+            navigate("/result", { state: score })
+        }
+    }, [quizIsDone])
 
     const renderScore = () => {
         return <>

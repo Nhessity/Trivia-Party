@@ -10,6 +10,7 @@ import NavbarComponent from './components/Navbar.Component';
 import Playlists from './components/Playlists';
 import HomeComponent from './components/Home.Component';
 import QuizGameComponent from './components/QuizGame.Component';
+import QuizResultComponent from './components/QuizResult.Component';
 
 function App() {
   const [accessToken, setAccessToken] = useState()
@@ -66,6 +67,7 @@ function App() {
         <Route path="/topartists" element={<TopArtists />} />
         <Route path="/playlists" element={<Playlists />} />
         <Route path="/quiz" element={<QuizGameComponent />} /> 
+        <Route path="/result" element={<QuizResultComponent />} />
       </Routes>
     </>
 
