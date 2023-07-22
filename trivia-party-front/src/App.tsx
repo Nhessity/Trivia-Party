@@ -11,10 +11,13 @@ import Playlists from './components/Playlists';
 import HomeComponent from './components/Home.Component';
 import QuizGameComponent from './components/QuizGame.Component';
 import QuizResultComponent from './components/QuizResult.Component';
+import axios from 'axios';
+import Callback from './components/Callback.Component';
+import UserProfileComponent from './components/UserProfile.Component';
 
 function App() {
-  const [accessToken, setAccessToken] = useState()
-
+  //const [accessToken, setAccessToken] = useState()
+/*
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     // let code = JSON.parse(urlParams.get('code')!)
@@ -34,7 +37,7 @@ function App() {
         code_verifier: codeVerifier
     });
 
-    const response = fetch('https://accounts.spotify.com/api/token', {
+    fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -49,13 +52,46 @@ function App() {
     })
     .then(data => {
         localStorage.setItem('access_token', data.access_token);
-        setAccessToken(data.access_token)
+        localStorage.setItem('refresh_token', data.refresh_token)
+        console.log(data)
+        console.log(data.access_token)
+        console.log(data.refresh_token)
+        //setAccessToken(data.access_token)
     })
     .catch(error => {
         console.error('Error:', error);
+        refreshAccessToken(localStorage.getItem('refresh_token'))
     });
 
-  }, [accessToken])
+  }, [])
+
+  // refresh access token
+  async function refreshAccessToken(refreshToken:any){
+    const CLIENT_ID = "ae5f44b004754463ae3db48891687fa3"
+
+    try{
+      // const basicAuth = localStorage.getItem('refresh_token')
+      const form = new FormData()
+      form.append('grant_type', 'refresh_token')
+      form.append('refresh_token', refreshToken)
+      form.append('client_id', CLIENT_ID)
+
+      await axios.post('https://accounts.spotify.com/api/token', {
+        form,
+        headers : {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function (response){
+        console.log('1',response)
+      }).catch(function (error){
+        console.log('2',error)
+      })
+    }catch(error) {
+      console.log('3',error)
+    }
+  }
+*/
+
 
   return (
     <>
@@ -68,6 +104,8 @@ function App() {
         <Route path="/playlists" element={<Playlists />} />
         <Route path="/quiz" element={<QuizGameComponent />} /> 
         <Route path="/result" element={<QuizResultComponent />} />
+        <Route path="/callback" element={<Callback />} />
+        <Route path="/user" element={<UserProfileComponent />} />
       </Routes>
     </>
 

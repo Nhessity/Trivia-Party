@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+import ReactAudioPlayer from "react-audio-player"
 import { Col, Row } from "react-bootstrap"
 
 
@@ -10,8 +12,15 @@ interface QuestionSet {
 }
 
 function SongCardComponent({questionSet, handleAnswer}:any ){
+
+    // const [questionSet2, setQuestionSet2] = useState()
+    // useEffect(()=>{
+    //     setQuestionSet(questionSet)
+    // }, [])
+
     const handleSongSelect = (trackName:string, questionNumber:number) => {
     console.log(trackName, 'has been selected')
+    // questionSet = null
     handleAnswer(trackName, questionNumber)
     }
 
@@ -25,6 +34,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                     <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
                     </button>
                 </div>
+                <div className="d-flex justify-content-center">
+                    <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
+                </div>
             </Col>
 
             <Col>
@@ -33,6 +45,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                     <button>
                     <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
                     </button>
+                </div>
+                <div className="d-flex justify-content-center">
+                    <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
                 </div>
             </Col>
         </Row>

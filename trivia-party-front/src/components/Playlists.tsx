@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import QuizGameComponent from "./QuizGame.Component"
+import { RefreshAuth } from "./RefreshAuth"
 
 // interface Playlists{
 //     item: object
@@ -53,14 +54,24 @@ function Playlists(){
     const getUserPlaylists = async () => {
         console.log('pinging2')
         let accessToken = localStorage.getItem('access_token')
-        const {data} = await axios.get('https://api.spotify.com/v1/me/playlists', {
+        await axios.get('https://api.spotify.com/v1/me/playlists', {
             headers: {
                 Authorization: "Bearer " + accessToken,
                 // "Content-Type": "application/json"
             } 
+        }).then(response =>{
+            setUserPlaylists(response.data.items)
+        }).catch(err => {
+            if(err.response.status === 401){
+                console.log('attempting to refresh 2')
+                RefreshAuth(localStorage.getItem('refresh_token'))
+                //TODO: re-render page after refresh
+            }
         })
-        console.log(data.items)
-        setUserPlaylists(data.items)
+
+
+        // console.log(data.items)
+        // setUserPlaylists(data.items)
     }
 
     useEffect(
@@ -69,21 +80,21 @@ function Playlists(){
         }, []
     )
 
-    const getPlaylistSonglist = async (playlistId: string) => {
-        console.log('getting songlist from ' + playlistId)
-        // TODO: fetch songlist using playlistId
-        let accessToken = localStorage.getItem('access_token')
-        const {data} = await axios.get('https://api.spotify.com/v1/playlists/' + playlistId + '/tracks', {
-            headers: {
-                Authorization: "Bearer " + accessToken,
-            }
-        })
-        console.log(data.items)
+    // const getPlaylistSonglist = async (playlistId: string) => {
+    //     console.log('getting songlist from ' + playlistId)
+    //     // TODO: fetch songlist using playlistId
+    //     let accessToken = localStorage.getItem('access_token')
+    //     const {data} = await axios.get('https://api.spotify.com/v1/playlists/' + playlistId + '/tracks', {
+    //         headers: {
+    //             Authorization: "Bearer " + accessToken,
+    //         }
+    //     })
+    //     console.log(data.items)
 
-        data.items.map((track: any) => {
-            console.log(track.track.name)
-        })
-    }
+    //     data.items.map((track: any) => {
+    //         console.log(track.track.name)
+    //     })
+    // }
 
     // getUserPlaylists()
     const renderPlaylists = () => {

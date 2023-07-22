@@ -45,7 +45,7 @@ async function generateCodeChallenge(codeVerifier: string){
 function getSpotifyUserLogin(){
 
     const CLIENT_ID = "ae5f44b004754463ae3db48891687fa3"
-    const REDIRECT_URI = "http://localhost:3000"
+    const REDIRECT_URI = "http://localhost:3000/callback"
 
     let codeVerifier = generateRandomString(128)
 
@@ -74,8 +74,10 @@ function getSpotifyUserLogin(){
 }
 
 function logOut(){
+    localStorage.removeItem("refresh_token")
     localStorage.removeItem("access_token")
     localStorage.removeItem("code_verifier")
+    
 }
 
 export default Login;

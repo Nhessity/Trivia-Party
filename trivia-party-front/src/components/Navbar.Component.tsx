@@ -24,7 +24,7 @@ function NavbarComponent(){
 function logOut(){
     localStorage.removeItem("access_token")
     localStorage.removeItem("code_verifier")
-    
+    localStorage.removeItem("refresh_token")
 }
 
 export default NavbarComponent;
