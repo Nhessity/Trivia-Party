@@ -1,18 +1,14 @@
 import { Fragment, useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Login(){
 
     return <>
-        <h1 className="text-center">A Spotify Trivia Game</h1>
-        <p className="text-center">Challenge yourself to see how well you know trivia about your favorite songs.</p>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-            {/* <button onClick={getSpotifyUserLogin} type="button" className="btn btn-success btn-lg">LOGIN WITH SPOTIFY</button> */}
-            {/* <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> */}
-            {localStorage.getItem("access_token") ? <a href="http://localhost:3000/home"><button onClick={logOut} type="button" className="btn btn-success btn-lg">LOGOUT</button></a>  : <button onClick={getSpotifyUserLogin} type="button" className="btn btn-success btn-lg">LOGIN WITH SPOTIFY</button>}
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <Button onClick={getSpotifyUserLogin} variant="primary" size='lg'>LOGIN WITH SPOTIFY</Button>
+                </div>
 
-        </div>
-         
     </>
 }
 
