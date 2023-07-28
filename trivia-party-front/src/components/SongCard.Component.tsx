@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ReactAudioPlayer from "react-audio-player"
-import { Col, Row } from "react-bootstrap"
+import { Col, Container, Row } from "react-bootstrap"
 
 
 interface QuestionSet {
@@ -25,21 +25,59 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
     }
 
     return <>
-    
+        <Container>
         <Row className="justify-content-center">
             <Col>
-                <h1 className="text-center">{questionSet?.track1.name}</h1>
-                <div className="d-flex justify-content-center">
-                    <button>
-                    <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
-                    </button>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
-                </div>
+                
+                        <div className="d-flex justify-content-center">
+                            <Col>
+                                <button>
+                                <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
+                                </button>
+                            </Col>
+                            
+                            <div className="d-flex flex-column" style={{height: 316}}>
+                                <div className="mb-auto">
+                                    <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track1.name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track1.artists[0].name}</p> 
+                                </div>
+                                <div className="mt-auto">
+                                <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
+                                </div>
+                            </div>
+                            
+                        </div>
+
             </Col>
 
             <Col>
+                
+                        <div className="d-flex justify-content-center">
+                            <Col>
+                                <button>
+                                <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
+                                </button>
+                            </Col>
+                            
+                            <div className="d-flex flex-column" style={{height: 316}}>
+                                <div className="mb-auto">
+                                    <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track2.name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track2.artists[0].name}</p> 
+                                </div>
+                                <div className="mt-auto">
+                                <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+            </Col>
+
+            {/* <Col>
                 <h1 className="text-center">{questionSet?.track2.name}</h1>
                 <div className="d-flex justify-content-center">
                     <button>
@@ -49,8 +87,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                 <div className="d-flex justify-content-center">
                     <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
                 </div>
-            </Col>
+            </Col> */}
         </Row>
+        </Container>
     </>
 }
 

@@ -14,6 +14,7 @@ import QuizResultComponent from './components/QuizResult.Component';
 import axios from 'axios';
 import Callback from './components/Callback.Component';
 import UserProfileComponent from './components/UserProfile.Component';
+import ConfirmPlaylist from './components/ConfirmPlaylist.Component';
 
 function App() {
   //const [accessToken, setAccessToken] = useState()
@@ -106,6 +107,7 @@ function App() {
         <Route path="/result" element={<QuizResultComponent />} />
         <Route path="/callback" element={<Callback />} />
         <Route path="/user" element={<UserProfileComponent />} />
+        <Route path="/quizsetup" element={<ConfirmPlaylist />} />
       </Routes>
     </>
 

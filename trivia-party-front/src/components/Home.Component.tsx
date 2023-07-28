@@ -1,24 +1,33 @@
 import { Button, ButtonToolbar, Col, Container, Row } from "react-bootstrap"
 import Login from "./Login"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import SelectPlaylist from "./SelectPlaylist.Modal"
 
 function HomeComponent(){
+    const [showState, setShowState] = useState(false)
+    const selectPlaylistHandler = () => {
+        setShowState((showState) => showState = !showState)
+    }
+
     return (<>
         <Container>
             <Row className="justify-content-md-center my-5">
                 <Col className="justify-content-center">
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <h1>Think trivia, but with your playlists.</h1>
+                        <h1>Think trivia, but with <u style={{textDecorationColor:'#0d6efd', textDecorationSkipInk: 'none', }}>your playlists</u>.</h1>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center', textAlign: 'center', whiteSpace: 'pre-wrap'}}>
                         <h6>Play, score, and brag about your melodic IQ!{"\n"}
                         Do you really know your music?</h6>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                    {localStorage.getItem("access_token") ? (<Button variant='primary' size='lg' onClick={(e) => {
-                        e.preventDefault();
-                        window.location.href='http://localhost:3000/playlists'}}>Play Quiz</Button>) : <Login />}
+                    {localStorage.getItem("access_token") ? (<Button variant='primary' size='lg' onClick={selectPlaylistHandler}>Play Quiz</Button>) : <Login />}
                     </div>
+                    {/* temp code to test modal */}
+                    {/* <div>
+                        <Button onClick={selectPlaylistHandler}>Select Playlist</Button>
+                    </div> */}
                 </Col>
             </Row>      
             
@@ -52,6 +61,9 @@ function HomeComponent(){
                 </Col>
             </Row>
         </Container>
+        
+        {/* render modal when opened */}
+        <SelectPlaylist show={showState} selectPlaylist={selectPlaylistHandler} />
     </>)
 }
 export default HomeComponent

@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import Playlists from "./Playlists";
 import axios from "axios";
 import SongCardComponent from "./SongCard.Component";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { Navigate, redirect, useLocation, useNavigate } from "react-router-dom";
 
 function QuizGameComponent(props: any){
     // const [quizPlaylist, setQuizPlaylist] = useState({data:""});
@@ -18,12 +18,15 @@ function QuizGameComponent(props: any){
     // var quizIsDone = false
     const [quizIsDone, setQuizIsDone] = useState<boolean>(false)
     // var quizPlaylist : any
+    const {state} = useLocation()
 
     useEffect(
         function getPlaylistSonglistAfterLoading () {
-            if (!props.data) return
-            getPlaylistSonglist(props.data)
-        }, [props.data]
+            // if (!state.playlistId) return
+            getPlaylistSonglist(state)
+            // if (!props.data) return
+            // getPlaylistSonglist(props.data)
+        }, []
     )
 
     // useEffect(
