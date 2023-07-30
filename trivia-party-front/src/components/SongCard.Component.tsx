@@ -18,6 +18,26 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
     //     setQuestionSet(questionSet)
     // }, [])
 
+    const [selectSong, setSelectSong] = useState()
+    // var state = {
+    //     color: 'white' 
+    // }
+    const [selectCard, setSelectCard] = useState([{color:'white'}, {color:'white'}])
+
+    const onSong1Click = (e:any) => {
+        setSelectCard([{color:'#B0DAFA'}, {color:'white'}])
+    }
+
+    const onSong2Click = () => {
+        setSelectCard([{color:'white'}, {color:'#B0DAFA'}])
+    }
+    
+    useEffect(
+        function onLoadResetColors(){
+            setSelectCard([{color:'white'}, {color:'white'}])
+        },[questionSet]
+    )
+
     const handleSongSelect = (trackName:string, questionNumber:number) => {
     console.log(trackName, 'has been selected')
     // questionSet = null
@@ -29,7 +49,7 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
         <Row className="justify-content-center">
             <Col>
                 
-                        <div className="d-flex justify-content-center">
+                        {/* <div className="d-flex justify-content-center">
                             <Col>
                                 <button>
                                 <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
@@ -48,13 +68,24 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                                 </div>
                             </div>
                             
+                        </div> */}
+                    <div className="d-flex" onClick={onSong1Click} style={{backgroundColor: selectCard![0].color}}>
+                        <div className="">
+                            <button>
+                                <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
+                            </button>
                         </div>
-
+                        <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track1.name}</p>
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track1.artists[0].name}</p> 
+                                <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
+                        </div>
+                    </div>
             </Col>
 
             <Col>
                 
-                        <div className="d-flex justify-content-center">
+                        {/* <div className="d-flex justify-content-center">
                             <Col>
                                 <button>
                                 <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
@@ -73,8 +104,20 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                                 </div>
                             </div>
                             
+                        </div> */}
+                    {/* experimental layout */}
+                    <div className="d-flex" onClick={onSong2Click} style={{backgroundColor: selectCard![1].color}}>
+                        <div className="">
+                            <button>
+                                <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
+                            </button>
                         </div>
-
+                        <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track2.name}</p>
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track2.artists[0].name}</p> 
+                                <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
+                        </div>
+                    </div>
             </Col>
 
             {/* <Col>
