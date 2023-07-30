@@ -11,6 +11,17 @@ function SelectPlaylist(props:any){
 
     const [userPlaylists, setUserPlaylists] = useState<any>()
     const [selectedPlaylist, setSelectedPlaylist] = useState<any>()
+    const [isHover, setIsHover] = useState(false)
+    const [hoverIndex, setHoverIndex] = useState()
+
+    const handleMouseEnter = (key:any) => {
+        setIsHover(true)
+        setHoverIndex(key)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false)
+    }
 
     useEffect(
         function getUserPlaylistsAfterLoading(){
@@ -48,8 +59,9 @@ function SelectPlaylist(props:any){
     )
 
     const renderPlaylists = () => {
-        return userPlaylists?.map((playlist: any) => {
-            return <ListGroup.Item onClick={() => handleSelectedPlaylist(playlist.id, playlist.name)} >
+        return userPlaylists?.map((playlist: any, index: number) => {
+            return <ListGroup.Item style={{backgroundColor : isHover&&(hoverIndex===index)? '#B0DAFA' : 'white'}} key={index}
+                onClick={() => handleSelectedPlaylist(playlist.id, playlist.name)} onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
                     <b style={{fontSize:32}}>{playlist.name}{"\n"}</b>
                     <p style={{fontSize:32}}>{playlist.tracks.total} tracks</p>
                 </ListGroup.Item>

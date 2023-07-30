@@ -9,6 +9,10 @@ function ConfirmPlaylist(){
     const handleStartQuiz = (playlistId:string) => {
         navigate('/quiz', {state: playlistId})
     }
+
+    const handleBackButton = () => {
+        navigate('/home')
+    }
     
     return <>
         <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -18,7 +22,7 @@ function ConfirmPlaylist(){
             <h1>{state.playlistName}</h1>
         </div>
         <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Button variant="dark">Back</Button>
+            <Button variant="dark" onClick={handleBackButton}>Back</Button>
             <Button variant="primary" onClick={() => handleStartQuiz(state.playlistId)}>Start Quiz</Button>
         </div>
     </>
