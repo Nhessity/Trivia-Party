@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ReactAudioPlayer from "react-audio-player"
-import { Col, Container, Row } from "react-bootstrap"
+import { Button, Col, Container, Row } from "react-bootstrap"
 
 
 interface QuestionSet {
@@ -23,18 +23,22 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
     //     color: 'white' 
     // }
     const [selectCard, setSelectCard] = useState([{color:'white'}, {color:'white'}])
+    const [selectAnswer, setSelectAnswer] = useState()
 
     const onSong1Click = (e:any) => {
         setSelectCard([{color:'#B0DAFA'}, {color:'white'}])
+        setSelectAnswer(questionSet?.track1.name)
     }
 
     const onSong2Click = () => {
         setSelectCard([{color:'white'}, {color:'#B0DAFA'}])
+        setSelectAnswer(questionSet?.track2.name)
     }
     
     useEffect(
-        function onLoadResetColors(){
+        function onLoadResetQuestion(){
             setSelectCard([{color:'white'}, {color:'white'}])
+            setSelectAnswer(undefined)
         },[questionSet]
     )
 
@@ -131,6 +135,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                     <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
                 </div>
             </Col> */}
+        </Row>
+        <Row>
+            <Button onClick={() => handleSongSelect(selectAnswer!, questionSet?.questionNumber)} disabled={!selectAnswer}>Submit</Button>
         </Row>
         </Container>
     </>

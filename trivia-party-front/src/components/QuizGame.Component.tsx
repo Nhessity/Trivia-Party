@@ -96,9 +96,16 @@ function QuizGameComponent(props: any){
         let track1 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
 
         // make sure track2 is different from track1
+        // TODO: dont let user pick a playlist of a small size else cant find different tracks to create question
         let track2 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
-        if (track1 === track2){
+        let i = 0
+        while (track1 === track2){
             track2 = quizPlaylist[getRandomInt(0, quizPlaylist.length)].track
+            i++;
+            if (i > 20){
+                console.log('couldnt find two different tracks')
+                break
+            }
         }
         let answer = questionType[randomInt].func(track1, track2)
         
