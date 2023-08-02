@@ -4,6 +4,7 @@ import Playlists from "./Playlists";
 import axios from "axios";
 import SongCardComponent from "./SongCard.Component";
 import { Navigate, redirect, useLocation, useNavigate } from "react-router-dom";
+import AnswerFeedback from "./AnswerFeedback.Component";
 
 function QuizGameComponent(props: any){
     // const [quizPlaylist, setQuizPlaylist] = useState({data:""});
@@ -17,6 +18,8 @@ function QuizGameComponent(props: any){
     const [score, setScore] = useState<number>(0)
     // var quizIsDone = false
     const [quizIsDone, setQuizIsDone] = useState<boolean>(false)
+    const [showAnswerFeedback, setShowAnswerFeedback] = useState(false)
+    const [userAnswer, setUserAnswer] = useState<any>()
     // var quizPlaylist : any
     const {state} = useLocation()
 
@@ -63,7 +66,7 @@ function QuizGameComponent(props: any){
     // todo: question bank and getting
     // add which song is shorter/longer
     const questionType = [{"type": 0, "str": "Which track is currently more popular?", 
-            "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return track1.name} return track2.name}},
+            "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return track1} return track2}},
         {"type" : 1, "str" : "Which track was released earlier?", "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return 1} return 2}}]
 
 
@@ -86,6 +89,9 @@ function QuizGameComponent(props: any){
 
     // create a question set using random numbers and avoid using the same track twice
     const createQuestionSet = (questionNumber:number) => {
+
+        setUserAnswer(null)
+        setShowAnswerFeedback(false)
         // pick random tracks
         // make a check if dupe, then pick another track2
         // get answer based on question type selected
@@ -133,13 +139,23 @@ function QuizGameComponent(props: any){
     }
 
     const handleAnswer = (trackName:string, questionNumber:number) => {
-        if(trackName === questionSet?.answer){
-            console.log('correct', questionSet?.answer, 'is more popular')
-            setScore(score+1)
-        }else{
-            console.log('incorrect', questionSet?.answer, 'is more popular')
-        }
+        // if(trackName === questionSet?.answer.name){
+        //     console.log('correct', questionSet?.answer, 'is more popular')
+        //     setUserAnswer(trackName)
+        //     setScore(score+1)
+        // }else{
+        //     setUserAnswer(trackName)
+        //     console.log('incorrect', questionSet?.answer, 'is more popular')
+        // }
+        setUserAnswer({trackName, questionNumber})
+        // setShowAnswerFeedback(true)
+        setShowAnswerFeedback((showAnswerFeedback) => showAnswerFeedback = !showAnswerFeedback)
 
+        
+    }
+
+    const handleContinue = (questionNumber:number, score:number) => {
+        setScore(score)
         if(questionNumber >= 10 ){
             // const navigate = useNavigate()
             // console.log("attempting to redirect");
@@ -151,6 +167,8 @@ function QuizGameComponent(props: any){
             createQuestionSet(questionNumber+1)
         }
     }
+
+
     let navigate = useNavigate()
     
 
@@ -162,7 +180,7 @@ function QuizGameComponent(props: any){
 
     const renderScore = () => {
         return <>
-            {score} / {questionSet?.questionNumber - 1}
+            {score}
         </>
     }
 
@@ -187,6 +205,8 @@ function QuizGameComponent(props: any){
         {/* {quizPlaylist ? renderQuiz() : <div/>} */}
         {questionSet ? renderScore() : <div/>}
         {questionSet ? renderQuiz() : <div/>}
+        {/* {showAnswerFeedback ? <AnswerFeedback /> : <div/>} */}
+        <AnswerFeedback show={showAnswerFeedback} correctAnswer={questionSet?.answer} selectedAnswer={userAnswer} handleContinue={handleContinue}/>
     </>
 }
 

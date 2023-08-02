@@ -6,7 +6,7 @@ function QuizResultComponent(){
     
     return<>
         Thank you for playing!
-        Final Score: {state}/10
+        Final Score: {state}
     </>
 }
 

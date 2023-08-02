@@ -75,9 +75,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                         </div> */}
                     <div className="d-flex" onClick={onSong1Click} style={{backgroundColor: selectCard![0].color}}>
                         <div className="">
-                            <button>
-                                <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
-                            </button>
+                            
+                                <img src={questionSet?.track1.album.images[1].url} className=""></img>
+                            
                         </div>
                         <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
                                 <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track1.name}</p>
@@ -112,9 +112,9 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                     {/* experimental layout */}
                     <div className="d-flex" onClick={onSong2Click} style={{backgroundColor: selectCard![1].color}}>
                         <div className="">
-                            <button>
-                                <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
-                            </button>
+                            
+                                <img src={questionSet?.track2.album.images[1].url} className=""></img>
+                            
                         </div>
                         <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
                                 <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track2.name}</p>
