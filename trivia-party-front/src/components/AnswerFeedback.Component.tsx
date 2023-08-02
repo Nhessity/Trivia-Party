@@ -1,42 +1,39 @@
 import { useEffect, useState } from "react"
 import { Button, Modal, ModalBody } from "react-bootstrap"
 
-function AnswerFeedback({show, correctAnswer, selectedAnswer, handleContinue}:any){
+function AnswerFeedback({show, questionSet, selectedAnswer, handleContinue}:any){
 
     const [feedback, setFeedback] = useState<any>()
     const [score, setScore] = useState<number>(0)
 
     useEffect(
         function onLoadCheckAnswer(){
-            checkAnswer()
-        }, [selectedAnswer?.questionNumber]
+            if(selectedAnswer !== null){
+                checkAnswer()
+            }
+        }, [selectedAnswer]
     )
 
     const handleBackToQuiz = () => {
-        //pass score calculation and move onto next question
-        // props.handleContinue(props.selectedAnswer?.questionNumber)
-        handleContinue(selectedAnswer.questionNumber, score)
+        handleContinue(questionSet.questionNumber, score)
     }
 
     const checkAnswer = () => {
-        // console.log(correctAnswer?.name)
-        // console.log(selectedAnswer?.trackName)
-        if (correctAnswer?.name === selectedAnswer?.trackName && selectedAnswer?.questionNumber > 0){
-            // console.log(correctAnswer?.name)
-            // console.log(selectedAnswer?.trackName)
+        //console.log('checking selected answer value: ' + selectedAnswer)
+        if(selectedAnswer){
             setFeedback({
                 title: 'Correct',
                 description: 'You\'re right on the money! This song is the more popular track.',
-                songName: correctAnswer?.name,
-                artist: correctAnswer?.artists[0].name
+                songName: questionSet?.answer.name,
+                artist: questionSet?.answer.artists[0].name
             })
             setScore(score+100)
         }else{
             setFeedback({
                 title: 'Incorrect',
                 description: 'The more popular track is...',
-                songName: correctAnswer?.name,
-                artist: correctAnswer?.artists[0].name
+                songName: questionSet?.answer.name,
+                artist: questionSet?.answer.artists[0].name
             })
         }
     }

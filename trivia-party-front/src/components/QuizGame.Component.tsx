@@ -139,18 +139,15 @@ function QuizGameComponent(props: any){
     }
 
     const handleAnswer = (trackName:string, questionNumber:number) => {
-        // if(trackName === questionSet?.answer.name){
-        //     console.log('correct', questionSet?.answer, 'is more popular')
-        //     setUserAnswer(trackName)
-        //     setScore(score+1)
-        // }else{
-        //     setUserAnswer(trackName)
-        //     console.log('incorrect', questionSet?.answer, 'is more popular')
-        // }
-        setUserAnswer({trackName, questionNumber})
-        // setShowAnswerFeedback(true)
-        setShowAnswerFeedback((showAnswerFeedback) => showAnswerFeedback = !showAnswerFeedback)
-
+        // console.log('track', trackName, 'is being compared to answer', questionSet?.answer.name)
+        if (trackName === questionSet?.answer.name){
+            
+            setUserAnswer(true)
+            setShowAnswerFeedback((showAnswerFeedback) => showAnswerFeedback = !showAnswerFeedback)
+        }else{
+            setUserAnswer(false)
+            setShowAnswerFeedback((showAnswerFeedback) => showAnswerFeedback = !showAnswerFeedback)
+        }
         
     }
 
@@ -206,7 +203,7 @@ function QuizGameComponent(props: any){
         {questionSet ? renderScore() : <div/>}
         {questionSet ? renderQuiz() : <div/>}
         {/* {showAnswerFeedback ? <AnswerFeedback /> : <div/>} */}
-        <AnswerFeedback show={showAnswerFeedback} correctAnswer={questionSet?.answer} selectedAnswer={userAnswer} handleContinue={handleContinue}/>
+        <AnswerFeedback show={showAnswerFeedback} questionSet={questionSet} selectedAnswer={userAnswer} handleContinue={handleContinue}/>
     </>
 }
 
