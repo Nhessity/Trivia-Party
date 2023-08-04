@@ -42,6 +42,12 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
         },[questionSet]
     )
 
+    const getAllArtistsInSong = (artists : Array<any>) => {
+        let artistNameArray = artists.map(artist => artist.name)
+        let str = artistNameArray.join(', ')
+        return str
+    }
+
     const handleSongSelect = (trackName:string, questionNumber:number) => {
     console.log(trackName, 'has been selected')
     // questionSet = null
@@ -60,7 +66,7 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                         </div>
                         <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
                                 <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track1.name}</p>
-                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track1.artists[0].name}</p> 
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{getAllArtistsInSong(questionSet?.track1.artists)}</p> 
                                 <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
                         </div>
                     </div>
@@ -75,7 +81,7 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
                         </div>
                         <div className="d-flex flex-column justify-content-between" style={{height: 316, paddingLeft: 5}}>
                                 <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track2.name}</p>
-                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track2.artists[0].name}</p> 
+                                <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{getAllArtistsInSong(questionSet?.track2.artists)}</p> 
                                 <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
                         </div>
                     </div>

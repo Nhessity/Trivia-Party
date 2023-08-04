@@ -8,7 +8,8 @@ function AnswerFeedback({show, questionSet, selectedAnswer, handleContinue}:any)
 
     useEffect(
         function onLoadCheckAnswer(){
-            if(selectedAnswer !== null){
+            console.log(selectedAnswer)
+            if(selectedAnswer != null && selectedAnswer != undefined){
                 checkAnswer()
             }
         }, [selectedAnswer]
@@ -18,14 +19,22 @@ function AnswerFeedback({show, questionSet, selectedAnswer, handleContinue}:any)
         handleContinue(questionSet.questionNumber, score)
     }
 
+    const getAllArtistsInSong = (artists : Array<any>) => {
+        let artistNameArray = artists.map(artist => artist.name)
+        let str = artistNameArray.join(', ')
+        return str
+    }
+
     const checkAnswer = () => {
         //console.log('checking selected answer value: ' + selectedAnswer)
+        console.log(questionSet?.answer?.artists[0].name)
         if(selectedAnswer){
             setFeedback({
                 title: 'Correct',
                 description: 'You\'re right on the money! This song is the more popular track.',
                 songName: questionSet?.answer.name,
-                artist: questionSet?.answer.artists[0].name,
+                artist: getAllArtistsInSong(questionSet?.answer?.artists),
+                // artist: questionSet?.answer?.artists[0].name,
                 backgroundColor: '#0094FF',
                 releaseDate: questionSet?.answer.album.release_date
             })
@@ -35,7 +44,8 @@ function AnswerFeedback({show, questionSet, selectedAnswer, handleContinue}:any)
                 title: 'Incorrect',
                 description: 'The more popular track is...',
                 songName: questionSet?.answer.name,
-                artist: questionSet?.answer.artists[0].name,
+                artist: getAllArtistsInSong(questionSet?.answer?.artists),
+                // artist: questionSet?.answer?.artists[0].name,
                 backgroundColor: '#DD6C49',
                 releaseDate: questionSet?.answer.album.release_date
             })
