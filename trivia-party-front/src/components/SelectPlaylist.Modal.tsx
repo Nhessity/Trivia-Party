@@ -13,6 +13,7 @@ function SelectPlaylist(props:any){
     const [selectedPlaylist, setSelectedPlaylist] = useState<any>()
     const [isHover, setIsHover] = useState(false)
     const [hoverIndex, setHoverIndex] = useState()
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'))
 
     const handleMouseEnter = (key:any) => {
         setIsHover(true)
@@ -30,7 +31,6 @@ function SelectPlaylist(props:any){
     )
 
     const getUserPlaylists = async () => {
-        let accessToken = localStorage.getItem('access_token')
         await axios.get('https://api.spotify.com/v1/me/playlists?limit=50', {
             headers: {
                 Authorization: "Bearer " + accessToken
@@ -40,6 +40,7 @@ function SelectPlaylist(props:any){
         }).catch(err => {
             if (err.response.status === 401){
                 RefreshAuth(localStorage.getItem('refresh_token'))
+                setAccessToken(localStorage.getItem('access_token'))
             }
         })
     }

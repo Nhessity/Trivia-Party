@@ -52,27 +52,6 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
         <Container>
         <Row className="justify-content-center">
             <Col>
-                
-                        {/* <div className="d-flex justify-content-center">
-                            <Col>
-                                <button>
-                                <img onClick={() => handleSongSelect(questionSet?.track1.name, questionSet?.questionNumber)} src={questionSet?.track1.album.images[1].url} className=""></img>
-                                </button>
-                            </Col>
-                            
-                            <div className="d-flex flex-column" style={{height: 316}}>
-                                <div className="mb-auto">
-                                    <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track1.name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track1.artists[0].name}</p> 
-                                </div>
-                                <div className="mt-auto">
-                                <ReactAudioPlayer src={questionSet?.track1.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
-                                </div>
-                            </div>
-                            
-                        </div> */}
                     <div className="d-flex" onClick={onSong1Click} style={{backgroundColor: selectCard![0].color}}>
                         <div className="">
                             
@@ -88,28 +67,6 @@ function SongCardComponent({questionSet, handleAnswer}:any ){
             </Col>
 
             <Col>
-                
-                        {/* <div className="d-flex justify-content-center">
-                            <Col>
-                                <button>
-                                <img onClick={() => handleSongSelect(questionSet?.track2.name, questionSet?.questionNumber)} src={questionSet?.track2.album.images[1].url} className=""></img>
-                                </button>
-                            </Col>
-                            
-                            <div className="d-flex flex-column" style={{height: 316}}>
-                                <div className="mb-auto">
-                                    <p className="text-left" style={{fontSize: 24, fontWeight: 700}}>{questionSet?.track2.name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-left" style={{fontSize: 24, fontWeight: 400}}>{questionSet?.track2.artists[0].name}</p> 
-                                </div>
-                                <div className="mt-auto">
-                                <ReactAudioPlayer src={questionSet?.track2.preview_url} controls volume={0.25} key={questionSet?.questionNumber} />
-                                </div>
-                            </div>
-                            
-                        </div> */}
-                    {/* experimental layout */}
                     <div className="d-flex" onClick={onSong2Click} style={{backgroundColor: selectCard![1].color}}>
                         <div className="">
                             

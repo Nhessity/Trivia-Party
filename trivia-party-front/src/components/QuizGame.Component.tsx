@@ -47,7 +47,7 @@ function QuizGameComponent(props: any){
 
     const getPlaylistSonglist = async (playlistId: string) => {
         console.log('getting songlist from ' + playlistId)
-        // TODO: fetch songlist using playlistId
+        // TODO: refresh token if access expires
         let accessToken = localStorage.getItem('access_token')
         const response = await axios.get('https://api.spotify.com/v1/playlists/' + playlistId + '/tracks', {
             headers: {
@@ -56,11 +56,9 @@ function QuizGameComponent(props: any){
         })
     
         setQuizPlaylist(response.data.items)
-        // quizPlaylist = data.data.items
         console.log(' fetch length '+ response.data.items.length)
         console.log('quizPlaylist length ' + quizPlaylist.length)
-        // createQuestionSet(1)
-        // console.log(quizPlaylist[0].track.name)
+
     }
 
     // todo: question bank and getting
@@ -69,17 +67,6 @@ function QuizGameComponent(props: any){
             "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return track1} return track2}},
         {"type" : 1, "str" : "Which track was released earlier?", "func": (track1 : any, track2 : any) => {if (track1.popularity >= track2.popularity){return 1} return 2}}]
 
-
-
-    // var getAnswer:{() : any;}
-
-    // note: read up on component did mount
-
-    // useEffect(
-    //     function createQuestionSetAfterLoading(){
-    //         createQuestionSet(1)
-    //     }, []
-    // )
 
     function getRandomInt(min:number, max:number){
         min = Math.ceil(min);
@@ -120,16 +107,6 @@ function QuizGameComponent(props: any){
         console.log('question set created')
     }
 
-    // if i dont like this -> change questionSet to a useState?
-    // when submitted, questionNumber needs to be incremented somewhere
-    // quiz should end after the 10th question is answered
-    // const questionSet = (questionNumber:any, track1:any, track2:any, answer:any) => {
-    //     questionNumber = questionNumber
-    //     track1 = track1
-    //     track2 = track2
-    //     answer = answer
-    // }
-
     interface QuestionSet {
         questionNumber : any
         questionStr : string
@@ -154,11 +131,6 @@ function QuizGameComponent(props: any){
     const handleContinue = (questionNumber:number, score:number) => {
         setScore(score)
         if(questionNumber >= 10 ){
-            // const navigate = useNavigate()
-            // console.log("attempting to redirect");
-            // navigate("/result")
-            //return redirect("/result")
-            // quizIsDone = true
             setQuizIsDone(true)
         }else{
             createQuestionSet(questionNumber+1)
@@ -196,13 +168,8 @@ function QuizGameComponent(props: any){
     }
 
     return <>
-        {console.log('rendering start')}
-        {/* <p>{props.data}</p> */}
-        {/* {quizPlaylist ? {renderQuiz} : <></>} */}
-        {/* {quizPlaylist ? renderQuiz() : <div/>} */}
         {questionSet ? renderScore() : <div/>}
         {questionSet ? renderQuiz() : <div/>}
-        {/* {showAnswerFeedback ? <AnswerFeedback /> : <div/>} */}
         <AnswerFeedback show={showAnswerFeedback} questionSet={questionSet} selectedAnswer={userAnswer} handleContinue={handleContinue}/>
     </>
 }
